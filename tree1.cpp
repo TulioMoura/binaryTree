@@ -9,20 +9,15 @@ struct node {
 };
 
 struct tree {
-	node* root = NULL; //nó raiz da arvore, é um ponteiro para um endereço de memória que armazena um nó raiz da árvore
+	node* root = NULL; // Nó raiz da arvore, é um ponteiro para um endereço de memória que armazena um nó raiz da árvore
 	void create();
-	void addNode(int value); //prototipo da função addNode que adicionará um node na posição correta seguindo a regra da árvore binária
-	void print(node* node, int order); 
-	void find(int value);
-	//node find();
-	//pre order
-	//in order
-	//post order   
+	void addNode(int value); // Protótipo da função addNode que adicionará um node na posição correta seguindo a regra da árvore binária
+	void print(node* node, int order); // Protótipo da função print, esta imprime a árvore em ordem, pré-ordem ou pós-ordem conforme seus argumentos
+	void find(int value); // Protótipo da função find. Imprime na tela o valor do nó especificado assim como o valor de seus nós filhos
 };
 
 void tree::create(){
-	root = new node;
-	
+	root = new node; // Inicia a árvore com um nó vazio
 }
 
 void tree::addNode(int value) {
@@ -72,7 +67,6 @@ void tree::find(int value) {
 		if (value == aux_node->value)
 		{
 			printf("\n\nO valor do nó é: %d\nSeu nó filho à esquerda tem o valor de: %d\nSeu nó filho à direita tem o valor de: %d\n\n", aux_node->value, aux_node->left->value, aux_node->right->value);
-
 			break;
 		}
 		else
@@ -121,7 +115,7 @@ int main() {
 
 	setlocale(LC_ALL, "");
 
-	// ======================= Aicionando valores à árvore ==============================
+	// ======================= Adicionando valores à árvore ==============================
 
 	int arr[15] = { 12, 140, 426, 121, 296, 414, 362, 417, 105, 330, 119, 55, 182, 240, 24 };
 	tree novaArvore;
@@ -147,5 +141,6 @@ int main() {
 	cout << "\n==========================================================================\n" << endl; // Espaço entre as linhas de comando e o fim da aplicação no terminal
 
 	system("PAUSE");
+	return 0;
 
 }
