@@ -1,0 +1,18 @@
+Tema:
+Árvore binária de busca
+
+
+Orientações: 
+*Implemente uma estrutura de dados do tipo árvore binária
+*A estrutura de dados deve ser implementada por uma TAD. 
+*Essa TAD deve possuir pelo menos as seguintes operações (funções)
+    Criar uma árvore vazia
+    Inserir um nó item
+    Pesquisar um valor na árvore
+    Percorrer em-ordem, pós-ordem e pré-ordem
+        *pesquisar o que é cada terminação, in, pre e post order
+            #in order é na ordem que está na árvore?
+            #pre order é na orderm crescente?
+            #e post order é na order decrescente?
+    Excluir um nó.
+
