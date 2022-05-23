@@ -34,7 +34,7 @@ void tree::addNode(int value) {
 					if (previous->left != NULL) { //caso o nó a esquerda estiver preenchido, ele passará a ser o atual
  						previous = previous->left;
 					}
-					else { // caso seja null inserimos o nó `a esquerda do nó atual
+					else { // caso seja null inserimos o nó à esquerda do nó atual
 						previous->left = new node;
 						previous->left->value = value;
 						previous->left->left = NULL;
@@ -84,7 +84,7 @@ void tree::find(int value) {
 
 void tree::print(node* node, int order) {
 
-	switch (order)
+	switch (order) // A execução do código é redirecionada ao bloco correspondente à escolha do usuário (order)
 	{
 		case 1: // Print em ordem
 				if (node == NULL) return;
@@ -115,7 +115,7 @@ int main() {
 
 	setlocale(LC_ALL, "");
 
-	// ======================= Adicionando valores à árvore ==============================
+	// ======================= Adicionando valores de teste à árvore ==============================
 
 	int arr[15] = { 12, 140, 426, 121, 296, 414, 362, 417, 105, 330, 119, 55, 182, 240, 24 };
 	tree novaArvore;
@@ -125,22 +125,72 @@ int main() {
 		novaArvore.addNode(arr[i]);
 	}
 
-	// ==================================================================================
+	// ============================================================================================
 
-	cout << "\n==========================================================================\n" << endl; // Espaço entre as linhas de comando e o início da função Print no terminal
-	cout << "\n\nÁrvore em ordem: " << endl;
-	novaArvore.print(novaArvore.root, 1); // Print em ordem
-	cout << "\n\nÁrvore em Pré-ordem: " << endl;
-	novaArvore.print(novaArvore.root, 2); // Print em Pré-ordem
-	cout << "\n\nÁrvore em Pós-ordem: " << endl;
-	novaArvore.print(novaArvore.root, 3); // Print em Pós-ordem
-
-
-	novaArvore.find(414);
+	int option; // Variável auxiliar para conter a opção escolhida pelo usuário no menu
 	
-	cout << "\n==========================================================================\n" << endl; // Espaço entre as linhas de comando e o fim da aplicação no terminal
+	// Menu interativo com o usuário
+	do
+	{ 
+		system("CLS");
+		cout << "=============================== MENU ===========================" << endl;
+		cout << "(1) - Adicionar um nó;" << endl;
+		cout << "(2) - Imprimir a árvore;" << endl;
+		cout << "(0) - SAIR" << endl;
+		cout << "================================================================" << endl;
+		cout << "\nDigite o código da opção desejada: ";
+		cin >> option;
+		
+		switch (option) // A partir da opção escolhida pelo usuário, a função switch redireciona a execução do código ao bloco correspondente
+		{
+			case 1: // Caso a escolha do usuário seja adicionar um nó
+					system("CLS");
+					cout << "===================== Adicionar Nó ========================" << endl;
+					cout << "Digite o valor a ser adicionado à árvore: ";
+					int value;
+					cin >> value;
+					novaArvore.addNode(value);
+					system("CLS");
+					cout << "===========================================================" << endl;
+					cout << "                        Nó Adicionado                      " << endl;
+					cout << "===========================================================" << endl;
+					system("PAUSE");
+				break;
 
+			case 2: // Caso a escolha do usuário seja Imprimir a árvore
+					system("CLS");
+					cout << "===================== Imprimir ========================" << endl;
+					cout << "(1) - Imprimir em Ordem" << endl;
+					cout << "(2) - Imprimir em Pré-ordem" << endl;
+					cout << "(3) - Imprimir em Pós-ordem" << endl;
+					cout << "=========================================================" << endl;
+					cout << "Digite uma opção para a impressão da árvore: ";
+					int order;
+					cin >> order;
+					
+					novaArvore.print(novaArvore.root, order);
+					cout << endl;
+					system("PAUSE");
+				break;
+			
+			case 0: // Para o caso de saída da aplicação
+				break;
+			
+			default: // Caso a opção digitada seja inválida
+
+					system("CLS");
+					cout << "===========================================================" << endl;
+					cout << "                  Digite uma opção válida                  " << endl;
+					cout << "===========================================================" << endl;
+					system("PAUSE");
+
+				break;
+			}
+
+	} while (option != 0); // Fim do loop caso o usuário escolha sair da aplicação
+	
 	system("PAUSE");
+	system("CLS");
 	return 0;
 
 }
