@@ -1,7 +1,7 @@
 #include <iostream>
 #include <locale.h>
 #include <stdlib.h>
-#include<unistd.h>
+
 using namespace std;
 
 struct node {
@@ -77,7 +77,6 @@ void tree::print(node* node, int order) {
    			 print(node->left, 1);
    			 cout << node->value << "  ";
    			 print(node->right, 1);
-   			 sleep(5);
    		 break;
 
    	 case 2: // Print em Pré-ordem
@@ -86,7 +85,6 @@ void tree::print(node* node, int order) {
    			 cout << node->value << "  ";
    			 print(node->left, 2);
    			 print(node->right, 2);
-   			 sleep(5);
    		 break;
    	 case 3: // Print em Pós-ordem
    			 if (node == NULL) return;
@@ -94,7 +92,6 @@ void tree::print(node* node, int order) {
    			 print(node->left, 3);
    			 print(node->right, 3);
    			 cout << node->value << "  ";
-   			 sleep(5);
    		 break;
     }
 }
@@ -121,81 +118,118 @@ int main() {
     
     do // Menu interativo com o usuário
     {
-   	 system("clear");
-   	 cout << "=============================== MENU ===========================" << endl;
-   	 cout << "(1) - Adicionar um nó;" << endl;
-   	 cout << "(2) - Imprimir a árvore;" << endl;
-   	 cout << "(3) - Encontrar um valor na árvore;" << endl;
-   	 cout << "(0) - SAIR" << endl;
-   	 cout << "================================================================" << endl;
-   	 cout << "\nDigite o código da opção desejada: ";
-   	 cin >> option;
+   	#ifdef __unix__ 
+        system("clear"); 
+    #elif _WIN32 
+        system("CLS"); 
+    #endif
+   	cout << "=============================== MENU ===========================" << endl;
+   	cout << "(1) - Adicionar um nó;" << endl;
+   	cout << "(2) - Imprimir a árvore;" << endl;
+   	cout << "(3) - Encontrar um valor na árvore;" << endl;
+   	cout << "(0) - SAIR" << endl;
+   	cout << "================================================================" << endl;
+   	cout << "\nDigite o código da opção desejada: ";
+   	cin >> option;
    	 
-   	 switch (option) // A partir da opção escolhida pelo usuário, a função switch redireciona a execução do código ao bloco correspondente
-   	 {
-   		 case 1: // Caso a escolha do usuário seja adicionar um nó
-   				 system("clear");
-   				 cout << "===================== Adicionar Nó ========================" << endl;
-   				 cout << "Digite o valor a ser adicionado à árvore: ";
-   				 int value;
-   				 cin >> value;
-   				 novaArvore.addNode(novaArvore.root, value);
-   				 system("clear");
-   				 cout << "===========================================================" << endl;
-   				 cout << "                    	Nó Adicionado                  	" << endl;
-   				 cout << "===========================================================" << endl;
-   				 //system("PAUSE");
+   	switch (option) // A partir da opção escolhida pelo usuário, a função switch redireciona a execução do código ao bloco correspondente
+   	{
+   		case 1: // Caso a escolha do usuário seja adicionar um nó
+
+   				#ifdef __unix__ 
+                   system("clear"); 
+                #elif _WIN32 
+                   system("CLS"); 
+                #endif
+		        cout << "===================== Adicionar Nó ========================" << endl;
+   				cout << "Digite o valor a ser adicionado à árvore: ";
+   				int value;
+   				cin >> value;
+   				novaArvore.addNode(novaArvore.root, value);
+   				#ifdef __unix__ 
+                   system("clear"); 
+                #elif _WIN32 
+                   system("CLS"); 
+                #endif
+   				cout << "===========================================================" << endl;
+   				cout << "                    	Nó Adicionado                  	" << endl;
+   				cout << "===========================================================" << endl;
+   				#ifdef _WIN32 
+                   system("PAUSE"); 
+                #endif
    			 break;
 
-   		 case 2: // Caso a escolha do usuário seja Imprimir a árvore
-   				 system("clear");
-   				 cout << "===================== Imprimir ========================" << endl;
-   				 cout << "(1) - Imprimir em Ordem" << endl;
-   				 cout << "(2) - Imprimir em Pré-ordem" << endl;
-   				 cout << "(3) - Imprimir em Pós-ordem" << endl;
-   				 cout << "=========================================================" << endl;
-   				 cout << "Digite uma opção para a impressão da árvore: ";
-   				 int order;
-   				 cin >> order;
+   		case 2: // Caso a escolha do usuário seja Imprimir a árvore
+   				#ifdef __unix__ 
+                   system("clear"); 
+                #elif _WIN32 
+                   system("CLS"); 
+                #endif
+   				cout << "===================== Imprimir ========================" << endl;
+   				cout << "(1) - Imprimir em Ordem" << endl;
+   				cout << "(2) - Imprimir em Pré-ordem" << endl;
+   				cout << "(3) - Imprimir em Pós-ordem" << endl;
+   				cout << "=========================================================" << endl;
+   				cout << "Digite uma opção para a impressão da árvore: ";
+   				int order;
+   				cin >> order;
    				 
-   				 novaArvore.print(novaArvore.root, order);
-   				 cout << endl;
-   				 //system("PAUSE");
-   			 break;
+   				novaArvore.print(novaArvore.root, order);
+   				cout << endl;
+   				#ifdef _WIN32 
+                   system("PAUSE"); 
+                #endif
+   			break;
 
-   		 case 3:
+   		case 3:
 
-   				 cout << "===================== Encontrar ========================" << endl;
-   				 cout << "Encontra o valor de um nó especificado na árvore" << endl;
-   				 cout << "=========================================================" << endl;
-   				 cout << "Digite uma opção para a impressão da árvore: ";
-   				 cin >> value;
-   				 system("clear");
-   				 novaArvore.find(value);
-   				 //system("PAUSE");
+   				cout << "===================== Encontrar ========================" << endl;
+   			    cout << "Encontra o valor de um nó especificado na árvore" << endl;
+   			    cout << "=========================================================" << endl;
+   				cout << "Digite uma opção para a impressão da árvore: ";
+   				cin >> value;
+   				#ifdef __unix__ 
+                   system("clear"); 
+                #elif _WIN32 
+                   system("CLS"); 
+                #endif
+   				novaArvore.find(value);
+   				#ifdef _WIN32 
+                   system("PAUSE"); 
+                #endif
 
-   			 break;
+   			break;
    		 
-   		 case 0: // Para o caso de saída da aplicação
-   			 break;
+   		case 0: // Para o caso de saída da aplicação
+   			break;
    		 
-   		 default: // Caso a opção digitada seja inválida
+   		default: // Caso a opção digitada seja inválida
 
-   				 system("clear");
-   				 cout << "===========================================================" << endl;
-   				 cout << "              	Digite uma opção válida              	" << endl;
-   				 cout << "===========================================================" << endl;
-   				 //system("PAUSE");
+   				#ifdef __unix__ 
+                   system("clear"); 
+                #elif _WIN32 
+                   system("CLS"); 
+                #endif
+   				cout << "===========================================================" << endl;
+   				cout << "              	Digite uma opção válida              	" << endl;
+   				cout << "===========================================================" << endl;
+   				#ifdef _WIN32 
+                   system("PAUSE"); 
+                #endif
 
-   			 break;
-   		 }
+   			break;
+   		}
 
-    } while (option != 0); // Fim do loop caso o usuário escolha sair da aplicação
+    }while (option != 0); // Fim do loop caso o usuário escolha sair da aplicação
     
-    //system("PAUSE");
-    system("clear");
+    #ifdef _WIN32 
+        system("PAUSE"); 
+    #endif
+    #ifdef __unix__ 
+        system("clear"); 
+    #elif _WIN32 
+        system("CLS"); 
+    #endif
     return 0;
 
 }
-
-
