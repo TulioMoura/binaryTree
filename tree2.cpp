@@ -2,7 +2,17 @@
 #include <locale.h>
 #include <stdlib.h>
 
+#ifdef __unix__ 
+        #define clearT  "clear" 
+    #elif _WIN32 
+        #define clearT  "CLS" 
+    #endif
+
 using namespace std;
+
+void clear(){
+
+}
 
 struct node {
     int value;
@@ -15,7 +25,9 @@ struct tree {
     void create();
     node *addNode(node* no_atual, int value); // Protótipo da função addNode que adicionará um node na posição correta seguindo a regra da árvore binária
     void print(node* node, int order); // Protótipo da função print, esta imprime a árvore em ordem, pré-ordem ou pós-ordem conforme seus argumentos
-    void find(int value); // Protótipo da função find. Imprime na tela o valor do nó especificado assim como o valor de seus nós filhos
+    node *find(int value); // Protótipo da função find. Imprime na tela o valor do nó especificado assim como o valor de seus nós filhos
+	node *remove(node*parent, int value); //Protótipo da função remove, que remove um node da árvore e retorna uma nova subárvore sem esse valor.
+	node *findBiggest(node * root); //Protótipo da função findBiggest, que retorna um ponteiro para o node de maior valor da árvore
 };
 
 void tree::create(){
@@ -43,24 +55,26 @@ node* tree::addNode(node* current_node, int value1){
     return current_node;
 }
 
-void tree::find(int value) {
+node* tree::find(int value) {
 
     node* aux_node = root;
 
     while (true)
-    {    
-   	 if (value == aux_node->value)
+    {
+	if(aux_node == NULL){
+		return NULL;
+		break;
+	}
+   	else if (value == aux_node->value)
    	 {
-   		 cout << ("\n\nO valor do nó é: %d\nSeu nó filho à esquerda tem o valor de: %d\nSeu nó filho à direita tem o valor de: %d\n\n", aux_node->value, aux_node->left->value, aux_node->right->value);
+   		 return aux_node;
    		 break;
    	 }
-   	 else
-   	 if (value < aux_node->value)
+   	 else if (value < aux_node->value)
    	 {
    		 aux_node = aux_node->left;
    	 }
-   	 else
-   	 if (value > aux_node->value)
+   	 else if (value > aux_node->value)
    	 {
    		 aux_node = aux_node->right;
    	 }    
@@ -95,9 +109,52 @@ void tree::print(node* node, int order) {
    		 break;
     }
 }
-    
-int main() {
 
+node * tree::findBiggest(node * root){
+	if(root->right == NULL){
+		return root;
+	}
+	else{
+		return findBiggest(root->right);
+	}
+}    
+node * tree::remove(node*parent, int value){
+	if(parent==NULL){
+		return NULL;
+	}
+	else if(parent->value == value){
+		if(	parent->left == NULL && parent->right == NULL){
+			return NULL;
+		}
+	else if(parent->left == NULL && parent->right!=NULL){
+		return parent->right;
+	}
+	else if(parent->right == NULL && parent->left!=NULL){
+		return parent->left;
+	}
+	else{
+		node * temp =  findBiggest(parent);
+		cout<<temp->value;
+		remove(parent, temp->value);
+		temp->left = parent->left;
+		temp->right = parent->right;
+		//delete parent;
+		return temp; 
+	}
+
+	}
+
+	else if(parent->value > value){
+		parent->left =  remove(parent->left, value);
+		return parent;
+	}
+	else if(parent->value < value){
+	parent -> right = remove(parent->right, value);
+	return parent;
+	}
+}
+int main() {
+	char temp; //variável temporaria para evitar o uso do system("pause")
     setlocale(LC_ALL, "");
 
 
@@ -113,58 +170,48 @@ int main() {
 
     // ============================================================================================
 
-    int option; // Variável auxiliar para conter a opção escolhida pelo usuário no menu
-    
+int option; // Variável auxiliar para conter a opção escolhida pelo usuário no menu
+node*isFind = NULL;
     
     do // Menu interativo com o usuário
     {
-   	#ifdef __unix__ 
-        system("clear"); 
-    #elif _WIN32 
-        system("CLS"); 
-    #endif
+   	system(clearT);
    	cout << "=============================== MENU ===========================" << endl;
    	cout << "(1) - Adicionar um nó;" << endl;
    	cout << "(2) - Imprimir a árvore;" << endl;
    	cout << "(3) - Encontrar um valor na árvore;" << endl;
+	cout << "(4) - Remover um valor da árvore;" << endl;  
    	cout << "(0) - SAIR" << endl;
    	cout << "================================================================" << endl;
    	cout << "\nDigite o código da opção desejada: ";
    	cin >> option;
+	
    	 
    	switch (option) // A partir da opção escolhida pelo usuário, a função switch redireciona a execução do código ao bloco correspondente
    	{
+		
    		case 1: // Caso a escolha do usuário seja adicionar um nó
 
-   				#ifdef __unix__ 
-                   system("clear"); 
-                #elif _WIN32 
-                   system("CLS"); 
-                #endif
+   				system(clearT);
 		        cout << "===================== Adicionar Nó ========================" << endl;
    				cout << "Digite o valor a ser adicionado à árvore: ";
    				int value;
    				cin >> value;
    				novaArvore.addNode(novaArvore.root, value);
-   				#ifdef __unix__ 
-                   system("clear"); 
-                #elif _WIN32 
-                   system("CLS"); 
-                #endif
+   				system(clearT);
    				cout << "===========================================================" << endl;
    				cout << "                    	Nó Adicionado                  	" << endl;
    				cout << "===========================================================" << endl;
-   				#ifdef _WIN32 
-                   system("PAUSE"); 
-                #endif
+   				cout<<"Pressione uma tecla para continuar ";
+				cin>>temp;
+				
+				//#ifdef _WIN32 
+                //   system("PAUSE"); 
+                //#endif
    			 break;
 
    		case 2: // Caso a escolha do usuário seja Imprimir a árvore
-   				#ifdef __unix__ 
-                   system("clear"); 
-                #elif _WIN32 
-                   system("CLS"); 
-                #endif
+   				system(clearT);
    				cout << "===================== Imprimir ========================" << endl;
    				cout << "(1) - Imprimir em Ordem" << endl;
    				cout << "(2) - Imprimir em Pré-ordem" << endl;
@@ -176,9 +223,11 @@ int main() {
    				 
    				novaArvore.print(novaArvore.root, order);
    				cout << endl;
-   				#ifdef _WIN32 
-                   system("PAUSE"); 
-                #endif
+   				cout<<"Pressione uma tecla para continuar ";
+				cin>>temp;
+				//#ifdef _WIN32 
+                //   system("PAUSE"); 
+                //#endif
    			break;
 
    		case 3:
@@ -186,50 +235,87 @@ int main() {
    				cout << "===================== Encontrar ========================" << endl;
    			    cout << "Encontra o valor de um nó especificado na árvore" << endl;
    			    cout << "=========================================================" << endl;
-   				cout << "Digite uma opção para a impressão da árvore: ";
+   				cout << "Digite um valor a ser encontrado na árvore";
    				cin >> value;
-   				#ifdef __unix__ 
-                   system("clear"); 
-                #elif _WIN32 
-                   system("CLS"); 
-                #endif
-   				novaArvore.find(value);
-   				#ifdef _WIN32 
-                   system("PAUSE"); 
-                #endif
+   				isFind = novaArvore.find(value);
+				   if(isFind==NULL){
+					   cout<<"O valor não foi encontrado"<<endl;
+				   }
+				   else{
+					   cout<<"o valor está no endereço "<<&isFind<<endl;
+					   cout<<"e seus nós filhos são: ";
+					   if(isFind->left!=NULL){
+						     cout<<isFind->left->value;
+					   }
+					   else{
+							cout<<"NULL";
+					   }
+					   cout<<" e ";
+					   if(isFind->right!=NULL){
+						   cout<<isFind->right->value<<endl;
+					   }
+					   else{
+						   cout<<"NULL";
+					   }   
+				}
+   				cout<<"Pressione uma tecla para continuar ";
+				cin>>temp;   
+				//#ifdef _WIN32 
+                //   system("PAUSE"); 
+                //#endif
 
    			break;
-   		 
+
+   		case 4:	
+		   		system(clearT);
+		   		cout << "======================= Remover =========================" << endl;
+   			    cout << "Remove um valor da estrutura da árvore" << endl;
+   			    cout << "=========================================================" << endl;
+   				cout << "Atualmente a árvore tem a seguinte estrutura: "<<endl;
+   				novaArvore.print(novaArvore.root, 1);
+				cout<<endl;
+				cout << "=========================================================" << endl;
+				cout << "Digite um valor para ser removido da árvore ";
+				cin >> value;
+				isFind = novaArvore.find(value);
+				if(isFind==NULL){
+					   cout<<"Valor Inválido";
+				}
+				else{
+					novaArvore.root = novaArvore.remove(novaArvore.root, value);
+				}
+
+				cout<<"Pressione uma tecla para continuar ";
+				cin>>temp;
+				
+			break;
+
    		case 0: // Para o caso de saída da aplicação
    			break;
    		 
    		default: // Caso a opção digitada seja inválida
 
-   				#ifdef __unix__ 
-                   system("clear"); 
-                #elif _WIN32 
-                   system("CLS"); 
-                #endif
+   				
    				cout << "===========================================================" << endl;
    				cout << "              	Digite uma opção válida              	" << endl;
    				cout << "===========================================================" << endl;
-   				#ifdef _WIN32 
-                   system("PAUSE"); 
-                #endif
+   				cout<<"Pressione uma tecla para continuar ";
+				cin>>temp;
+				//#ifdef _WIN32 
+                //   system("PAUSE"); 
+                //#endif
 
    			break;
    		}
 
     }while (option != 0); // Fim do loop caso o usuário escolha sair da aplicação
     
-    #ifdef _WIN32 
-        system("PAUSE"); 
-    #endif
-    #ifdef __unix__ 
-        system("clear"); 
-    #elif _WIN32 
-        system("CLS"); 
-    #endif
+    cout<<"Pressione uma tecla para continuar ";
+	cin>>temp;
+	//#ifdef _WIN32 
+    //    system("PAUSE"); 
+    //#endif
+    system(clearT);
     return 0;
 
 }
