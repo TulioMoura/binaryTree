@@ -124,21 +124,30 @@ node * tree::remove(node*parent, int value){
 	}
 	else if(parent->value == value){
 		if(	parent->left == NULL && parent->right == NULL){
+			delete parent;
 			return NULL;
 		}
 	else if(parent->left == NULL && parent->right!=NULL){
-		return parent->right;
+		node * temp = parent->right;
+		delete parent;
+		return temp;
 	}
 	else if(parent->right == NULL && parent->left!=NULL){
-		return parent->left;
+		node * temp = parent->left;
+		delete parent;
+		return temp;
 	}
 	else{
-		node * temp =  findBiggest(parent);
-		cout<<temp->value;
-		remove(parent, temp->value);
+		node * temp =  new node;
+		node *biggest = findBiggest(parent);
+		temp->value = biggest->value;
 		temp->left = parent->left;
 		temp->right = parent->right;
-		//delete parent;
+
+		
+		remove(parent, biggest->value);	
+		
+		delete parent;
 		return temp; 
 	}
 
