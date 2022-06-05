@@ -147,7 +147,7 @@ node *tree::remove(node *parent, int value){
 			else {
 
 				node *temp =  new node;
-				node *biggest = findBiggest(parent);
+				node *biggest = findBiggest(parent->left);
 				temp->value = biggest->value;
 				temp->left = parent->left;
 				temp->right = parent->right;
