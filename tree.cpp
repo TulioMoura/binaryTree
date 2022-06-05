@@ -181,13 +181,11 @@ int main() {
 
     // ======================= Adicionando valores de teste à árvore ==============================
 
-    int arr[15] = { 121, 296, 414, 362, 417, 105, 330, 119, 55, 182, 240, 24 };
+   
     tree novaArvore;
     novaArvore.create();
 
-    for (int i = 0; i < 15; i++) {
-   	 novaArvore.addNode(novaArvore.root, arr[i]);
-    }
+  
 
     // ============================================================================================
 
